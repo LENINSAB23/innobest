@@ -12,3 +12,4 @@ torchvision>=0.17.0
 ultralytics>=8.1.0
 opencv-python-headless>=4.9.0
 pydantic>=2.6.0
+onnxruntime>=1.17.0

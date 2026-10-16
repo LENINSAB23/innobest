@@ -107,10 +107,10 @@ class CameraController {
         this.offscreenCanvas.height = this.video.videoHeight;
       });
 
-      // Bucle de inferencia continua (cada 350 ms para fluidez y bajo consumo de red)
-      this.loopInterval = setInterval(() => this.processLiveFrame(), 350);
+      // Bucle de inferencia continua (cada 1000 ms = 1 segundo para envío continuo a MongoDB Atlas)
+      this.loopInterval = setInterval(() => this.processLiveFrame(), 1000);
 
-      window.showToast("Cámara de la laptop activada. Iniciando reconocimiento...", "success");
+      window.showToast("Cámara activada: Transmitiendo cada 1s a MongoDB Atlas...", "success");
     } catch (err) {
       console.error("Error al encender cámara:", err);
       let msg = "No se pudo acceder a la cámara de la laptop. Verifica los permisos del navegador.";
@@ -180,7 +180,7 @@ class CameraController {
       if (response.ok) {
         const data = await response.json();
         this.renderDetections(data.detections);
-        if (data.detections.length > 0) {
+        if (data.detections && data.detections.length > 0) {
           this.updateDetectionCard(data.detections[0], data.saved_to_db, data.record_id);
         } else {
           this.resetDetectionCard();
@@ -207,39 +207,54 @@ class CameraController {
 
     detections.forEach(det => {
       const b = det.box;
-      // Las coordenadas x están invertidas debido a la vista espejo del video
-      // El canvas ya tiene transform: scaleX(-1), así que dibujamos las coordenadas directas
       const x = b.x1;
       const y = b.y1;
       const w = b.x2 - b.x1;
       const h = b.y2 - b.y1;
 
-      // Color de caja según especie / estado
-      const color = det.bird_info && det.bird_info.status_color ? det.bird_info.status_color : "#10b981";
+      // Asignar colores vibrantes idénticos al estilo YOLO de la imagen de referencia (Imagen 2)
+      let color = "#eab308"; // Amarillo oro (estilo 'PERSON' de la imagen de referencia)
+      let textColor = "#000000";
 
-      // 1. Dibujar Bounding Box con bordes redondeados y efecto glow
+      const nameLower = (det.raw_class || det.class_name || "").toLowerCase();
+      if (nameLower.includes("paujil")) {
+        color = "#e11d48"; // Rojo intenso (estilo 'OBJECT' de la imagen de referencia)
+        textColor = "#ffffff";
+      } else if (nameLower.includes("matorralero") || nameLower.includes("matorrelero")) {
+        color = "#eab308"; // Amarillo vivo
+        textColor = "#000000";
+      } else if (nameLower.includes("trompetero")) {
+        color = "#0284c7"; // Azul cielo / cian
+        textColor = "#ffffff";
+      }
+
       this.ctx.save();
-      this.ctx.shadowColor = color;
-      this.ctx.shadowBlur = 12;
+
+      // 1. Dibujar Bounding Box rectangular nítido con línea sólida gruesa de 4px (sin sombras difusas)
       this.ctx.strokeStyle = color;
-      this.ctx.lineWidth = 3.5;
+      this.ctx.lineWidth = 4;
+      this.ctx.lineJoin = "miter";
       this.ctx.strokeRect(x, y, w, h);
 
-      // 2. Fondo semitransparente suave sobre la caja
-      this.ctx.fillStyle = "rgba(16, 185, 129, 0.08)";
-      this.ctx.fillRect(x, y, w, h);
-      this.ctx.restore();
+      // 2. Etiqueta superior tipo banner rectangular sólido (como en la Imagen de referencia 2)
+      const label = `${(det.class_name || "AVE").toUpperCase()}  ${det.confidence_pct}%`;
+      this.ctx.font = "bold 15px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+      const textMetrics = this.ctx.measureText(label);
+      const tagWidth = textMetrics.width + 16;
+      const tagHeight = 26;
 
-      // 3. Etiqueta con nombre y confianza
-      const label = `${det.class_name} · ${det.confidence_pct}%`;
-      this.ctx.font = "bold 15px 'Outfit', sans-serif";
-      const textWidth = this.ctx.measureText(label).width;
+      // Colocar el banner arriba del marco o en el borde superior interior si se sale de la pantalla
+      const tagY = y >= tagHeight ? y - tagHeight : y;
 
+      // Banner de color sólido
       this.ctx.fillStyle = color;
-      this.ctx.fillRect(x, y > 28 ? y - 28 : y, textWidth + 16, 26);
+      this.ctx.fillRect(x, tagY, tagWidth, tagHeight);
 
-      this.ctx.fillStyle = "#ffffff";
-      this.ctx.fillText(label, x + 8, (y > 28 ? y - 28 : y) + 18);
+      // Texto en contraste alto
+      this.ctx.fillStyle = textColor;
+      this.ctx.fillText(label, x + 8, tagY + 18);
+
+      this.ctx.restore();
     });
   }
 

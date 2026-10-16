@@ -13,7 +13,7 @@ class Settings:
 
     # Model configuration
     MODELS_DIR: Path = BASE_DIR / "app" / "models"
-    MODEL_PATH: Path = MODELS_DIR / os.getenv("MODEL_NAME", "best.pt")
+    MODEL_PATH: Path = MODELS_DIR / ("best.onnx" if (MODELS_DIR / "best.onnx").exists() else os.getenv("MODEL_NAME", "best.pt"))
     CONFIDENCE_THRESHOLD: float = float(os.getenv("CONFIDENCE_THRESHOLD", "0.45"))
     IOU_THRESHOLD: float = float(os.getenv("IOU_THRESHOLD", "0.45"))
 

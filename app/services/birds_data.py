@@ -31,7 +31,7 @@ BIRDS_CATALOG = {
         "diet": "Semillas, bayas e insectos que recolecta forrajeando en parejas o pequeños grupos en el estrato bajo.",
         "description": "Ave cantora de tamaño mediano (17 cm). Presenta un llamativo contraste: corona y nuca de tono amarillo ocre brillante, máscara facial negra profunda, garganta y vientre amarillo intenso, con dorso y cola pardo oliva oscuro.",
         "threats": "Fragmentación extrema del bosque de neblina de Carpish por la ampliación de la frontera agrícola (cultivo de papa y hortensias) y la construcción de vías.",
-        "keywords": ["matorralero", "matorralero tricolor", "atlapetes", "tricolor", "pinzon tricolor", "motorrelero"]
+        "keywords": ["matorralero", "matorralero tricolor", "matorrelero", "matorrelero_tricolor", "matorrelero tricolor", "atlapetes", "tricolor", "pinzon tricolor", "motorrelero"]
     },
     "paujil": {
         "id": "paujil",
@@ -51,7 +51,7 @@ BIRDS_CATALOG = {
 
 def get_bird_info(class_name: str) -> dict:
     """Retorna la ficha técnica enriquecida para una clase detectada."""
-    name_clean = class_name.lower().strip()
+    name_clean = class_name.lower().replace("_", " ").strip()
     
     # Búsqueda directa o por coincidencia de palabras clave
     for bird_id, info in BIRDS_CATALOG.items():
