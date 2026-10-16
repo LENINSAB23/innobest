@@ -65,6 +65,19 @@ class MongoDBManager:
             self.connection_message = f"Error MongoDB: {str(e)[:50]}"
             logger.error(f"Error al conectar con MongoDB: {e}")
 
+    def reconnect(self):
+        """Recarga la configuración desde .env y reintenta conectar con MongoDB Atlas."""
+        try:
+            from dotenv import load_dotenv
+            load_dotenv(settings.BASE_DIR / ".env", override=True)
+            settings.MONGODB_URI = os.getenv("MONGODB_URI", settings.MONGODB_URI)
+            settings.DATABASE_NAME = os.getenv("DATABASE_NAME", settings.DATABASE_NAME)
+            settings.COLLECTION_DETECTIONS = os.getenv("COLLECTION_NAME", "Historial-Aves-Identificados")
+            self._init_connection()
+        except Exception as e:
+            logger.error(f"Error al reconectar MongoDB: {e}")
+        return self.is_connected
+
     def save_detection(self, detection_data: Dict[str, Any]) -> str:
         """Guarda un registro de detección en MongoDB o en fallback local."""
         # Agregar timestamp ISO y legible

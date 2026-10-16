@@ -23,8 +23,8 @@ class Settings:
         "mongodb+srv://leninsabino27_db_user:5L5GnftQlls0Ejnx@cluster0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
     )
     DATABASE_NAME: str = os.getenv("DATABASE_NAME", "aves_huanuco_db")
-    COLLECTION_DETECTIONS: str = "detecciones_tiempo_real"
-    COLLECTION_UPLOADS: str = "analisis_imagenes"
+    COLLECTION_DETECTIONS: str = os.getenv("COLLECTION_NAME", "Historial-Aves-Identificados")
+    COLLECTION_UPLOADS: str = os.getenv("COLLECTION_UPLOADS", "Historial-Aves-Identificados")
     
     # Server host & port
     HOST: str = os.getenv("HOST", "0.0.0.0")

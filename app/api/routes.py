@@ -157,12 +157,15 @@ async def get_statistics():
     stats["model_name"] = detector.model.names if detector.model_loaded else "best.pt (Standby)"
     return stats
 
-@router.post("/model/reload", summary="Recargar modelo YOLO tras colocar best.pt")
+@router.post("/model/reload", summary="Recargar modelo YOLO y reconectar MongoDB")
 async def reload_model():
-    """Vuelve a chequear el directorio de modelos para cargar best.pt sin reiniciar el servidor."""
+    """Vuelve a chequear el directorio de modelos para cargar best.pt y reintenta conectar a MongoDB sin reiniciar el servidor."""
     detector.load_model()
+    db_manager.reconnect()
     return {
         "model_loaded": detector.model_loaded,
         "model_classes": detector.model_classes,
-        "message": "Modelo recargado exitosamente" if detector.model_loaded else "No se encontró best.pt en app/models/"
+        "atlas_connected": db_manager.is_connected,
+        "atlas_status": db_manager.connection_message,
+        "message": "Modelo y base de datos actualizados exitosamente."
     }

@@ -114,32 +114,10 @@ class BirdDetector:
 
     def _simulate_or_standby(self, width: int, height: int) -> List[Dict[str, Any]]:
         """
-        Retorna una detección de demostración controlada si no hay modelo .pt cargado aún,
-        permitiendo probar la interfaz, la cámara y el guardado en MongoDB Atlas inmediatamente.
+        No simula detecciones falsas para evitar etiquetar rostros u objetos como aves.
+        Retorna lista vacía hasta que 'best.pt' esté presente en app/models/.
         """
-        # Nota: La simulación se puede activar para pruebas visuales
-        # Se escoge una de las 3 aves para mostrar la funcionalidad completa
-        bird = BIRDS_CATALOG["trompetero"]
-        return [
-            {
-                "class_id": 0,
-                "class_name": "Trompetero (Modo Demo)",
-                "confidence": 0.942,
-                "confidence_pct": 94.2,
-                "box": {
-                    "x1": int(width * 0.2),
-                    "y1": int(height * 0.15),
-                    "x2": int(width * 0.8),
-                    "y2": int(height * 0.85),
-                    "norm_x1": 0.2,
-                    "norm_y1": 0.15,
-                    "norm_x2": 0.8,
-                    "norm_y2": 0.85
-                },
-                "bird_info": bird,
-                "is_demo": True
-            }
-        ]
+        return []
 
     def decode_base64_frame(self, base64_str: str) -> Image.Image:
         """Decodifica un cuadro de video enviado desde el navegador en formato base64."""

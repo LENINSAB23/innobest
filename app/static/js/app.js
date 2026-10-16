@@ -74,7 +74,7 @@ class InnoBestApp {
           modelText.textContent = "YOLO: best.pt Activo";
         } else {
           modelChip.className = "status-chip warning";
-          modelText.textContent = "YOLO: Modo Demostración (Standby)";
+          modelText.textContent = "YOLO: Esperando best.pt en app/models/";
         }
       }
     } catch (e) {
