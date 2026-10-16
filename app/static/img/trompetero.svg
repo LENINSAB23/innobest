@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <defs>
+    <linearGradient id="bgTromp" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#022c22"/>
+    </linearGradient>
+    <linearGradient id="backGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#cbd5e1"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" rx="20" fill="url(#bgTromp)"/>
+  
+  <!-- Hojas de fondo selva Huallaga -->
+  <path d="M 20 280 C 60 200, 150 180, 200 240 C 130 260, 60 290, 20 280 Z" fill="#10b981" opacity="0.25"/>
+  <path d="M 380 20 C 320 80, 260 120, 220 70 C 270 50, 340 30, 380 20 Z" fill="#34d399" opacity="0.2"/>
+
+  <!-- Silueta del Trompetero (cuerpo redondeado jorobado, patas largas, espalda grisácea) -->
+  <!-- Patas largas de zancuda de suelo -->
+  <line x1="175" y1="210" x2="165" y2="270" stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+  <line x1="205" y1="210" x2="215" y2="270" stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+  <line x1="165" y1="270" x2="145" y2="275" stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
+  <line x1="215" y1="270" x2="235" y2="275" stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Cuerpo redondeado negro azulado -->
+  <ellipse cx="190" cy="165" rx="75" ry="55" fill="#0f172a"/>
+  
+  <!-- Manto dorsal grisáceo característico del trompetero aliblanco / de Huánuco -->
+  <path d="M 140 145 C 160 120, 220 120, 245 155 C 230 180, 170 185, 140 145 Z" fill="url(#backGrad)"/>
+  
+  <!-- Pecho con reflejo violáceo / verde tornasol -->
+  <path d="M 130 160 C 145 190, 180 205, 200 195 C 175 205, 140 195, 130 160 Z" fill="#6366f1" opacity="0.5"/>
+
+  <!-- Cuello erguido y cabeza -->
+  <path d="M 145 160 C 135 130, 140 90, 160 75 C 175 65, 190 75, 180 100 C 170 125, 175 145, 175 160 Z" fill="#0f172a"/>
+  <circle cx="168" cy="78" r="15" fill="#0f172a"/>
+  <circle cx="164" cy="74" r="2.8" fill="#f8fafc"/>
+  <circle cx="163" cy="74" r="1.5" fill="#020617"/>
+
+  <!-- Pico corto y verdoso amarillento -->
+  <path d="M 155 77 L 130 82 C 145 88, 155 86, 158 82 Z" fill="#84cc16"/>
+  
+  <!-- Etiqueta UICN -->
+  <rect x="250" y="24" width="126" height="30" rx="8" fill="#d97706" opacity="0.9"/>
+  <text x="313" y="44" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">VULNERABLE (VU)</text>
+</svg>

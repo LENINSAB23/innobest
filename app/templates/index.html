@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InnoBest · Reconocimiento de Aves en Peligro de Extinción (Huánuco)</title>
+  <meta name="description" content="Plataforma de IA y visión computacional para la identificación y conservación en tiempo real de las aves amenazadas en el departamento de Huánuco, Perú (Trompetero, Matorralero Tricolor y Paujil).">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/static/img/brand_logo.svg">
+  
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Hojas de Estilos -->
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Encabezado / Barra de Navegación -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="/" class="brand">
+        <img src="/static/img/brand_logo.svg" alt="InnoBest Logo" class="brand-logo">
+        <div class="brand-text">
+          <h1>Inno<span>Best</span> <small style="font-size: 0.65em; font-weight: 600; color: var(--green-700); background: var(--green-100); padding: 2px 8px; border-radius: 6px; margin-left: 4px;">Huánuco</small></h1>
+          <p>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Monitoreo Biológico · Huánuco, Perú
+          </p>
+        </div>
+      </a>
+
+      <!-- Indicadores de Estado -->
+      <div class="status-indicators">
+        <!-- Chip MongoDB Atlas -->
+        <div id="header-mongo-chip" class="status-chip {% if connected_to_atlas %}connected{% else %}warning{% endif %}">
+          <span class="status-dot"></span>
+          <span id="header-mongo-text">MongoDB: {{ status_message }}</span>
+        </div>
+
+        <!-- Chip Modelo YOLO -->
+        <div id="header-model-chip" class="status-chip warning">
+          <span class="status-dot"></span>
+          <span id="header-model-text">YOLO: best.pt</span>
+        </div>
+
+        <!-- Botón Recargar Modelo -->
+        <button id="btn-reload-model" class="btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.78rem;" title="Recargar best.pt desde app/models/">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          Recargar Modelo
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenedor Principal -->
+  <main class="main-wrapper">
+
+    <!-- Hero Banner Ecológico -->
+    <section class="hero-banner">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          Biodiversidad de la Región Huánuco
+        </div>
+        <h2 class="hero-title">Reconocimiento Inteligente de Aves en Peligro de Extinción</h2>
+        <p class="hero-desc">
+          Plataforma de visión computacional y aprendizaje profundo (YOLO) para la detección y monitoreo en tiempo real de 3 especies emblemáticas de los bosques de neblina de Carpish y la selva del Huallaga: <strong>Trompetero</strong>, <strong>Matorralero Tricolor</strong> y <strong>Paujil</strong>. Los avistamientos se registran en <strong>MongoDB Atlas</strong> para investigación y preservación ecológica.
+        </p>
+
+        <!-- Estadísticas Rápidas -->
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div id="stat-total-detections" class="stat-number">0</div>
+            <div class="stat-label">Detecciones Registradas</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Aves Amenazadas Monitoreadas</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">Carpish & Tingo María</div>
+            <div class="stat-label">Áreas de Conservación Huánuco</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navegación por Pestañas -->
+    <nav class="tabs-nav" aria-label="Secciones de la aplicación">
+      <button class="tab-btn active" data-tab="tab-camera" id="tab-btn-camera">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        Cámara en Vivo (Webcam)
+      </button>
+
+      <button class="tab-btn" data-tab="tab-upload" id="tab-btn-upload">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Subir Archivos (Fotos)
+      </button>
+
+      <button class="tab-btn" data-tab="tab-catalog" id="tab-btn-catalog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Catálogo de las 3 Aves
+      </button>
+
+      <button class="tab-btn" data-tab="tab-history" id="tab-btn-history">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        Historial MongoDB Atlas
+      </button>
+    </nav>
+
+    <!-- ========================================================
+         PESTAÑA 1: CÁMARA DE LA LAPTOP EN TIEMPO REAL
+         ======================================================== -->
+    <div id="tab-camera" class="tab-pane active">
+      <div class="recognition-grid">
+        
+        <!-- Visor de la Cámara -->
+        <div class="card-viewer">
+          <div class="card-header-clean">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green-600)" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+              Visor en Tiempo Real de la Cámara
+            </h3>
+            
+            <!-- Selector de Cámara de Laptop -->
+            <select id="camera-select" class="btn-secondary" style="padding: 0.45rem 0.85rem; font-size: 0.82rem; border-radius: var(--radius-sm);">
+              <option value="">Cámara por Defecto</option>
+            </select>
+          </div>
+
+          <!-- Escenario de Video y Canvas Overlay -->
+          <div class="video-stage">
+            <video id="webcam" playsinline autoplay muted></video>
+            <canvas id="canvas-overlay"></canvas>
+
+            <!-- Placeholder cuando la cámara está apagada -->
+            <div id="camera-placeholder" class="camera-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
+              <h4>Cámara de la Laptop Apagada</h4>
+              <p>Presiona el botón verde para encender la cámara y detectar en tiempo real al Trompetero, Matorralero Tricolor o Paujil.</p>
+            </div>
+          </div>
+
+          <!-- Barra de Controles de Cámara -->
+          <div class="controls-bar">
+            <div class="btn-group">
+              <button id="btn-start-camera" class="btn-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Encender Cámara
+              </button>
+
+              <button id="btn-stop-camera" class="btn-primary btn-danger" style="display: none;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="6" y="6" width="12" height="12"/></svg>
+                Detener Cámara
+              </button>
+
+              <button id="btn-snapshot" class="btn-secondary" style="display: none;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+                Capturar y Guardar
+              </button>
+            </div>
+
+            <!-- Opciones y Persistencia en MongoDB -->
+            <div class="options-row">
+              <label class="custom-checkbox">
+                <input type="checkbox" id="chk-save-mongo" checked>
+                <span>Guardar detecciones en MongoDB Atlas automáticamente</span>
+              </label>
+
+              <div class="slider-container">
+                <span>Confianza mínima:</span>
+                <input type="range" id="slider-conf" min="0.25" max="0.90" step="0.05" value="0.45">
+                <span id="conf-val">45%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta Lateral de Diagnóstico Biológico en Tiempo Real -->
+        <div class="card-results">
+          <div class="card-header-clean">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green-600)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Ficha del Ave Detectada
+            </h3>
+            <span id="live-badge-status" class="conservation-badge badge-none">Escaneando...</span>
+          </div>
+
+          <!-- Banner de Especie -->
+          <div id="live-result-banner" class="detection-status-banner">
+            <h4 id="live-species-title" class="detection-title-species">Buscando Aves en Huánuco...</h4>
+            <div id="live-scientific-title" class="scientific-name">Apunta la cámara hacia el espécimen</div>
+
+            <!-- Barra Medidora de Confianza -->
+            <div class="meter-wrapper">
+              <div class="meter-header">
+                <span>Certeza del Modelo YOLO:</span>
+                <span id="live-meter-val">0%</span>
+              </div>
+              <div class="meter-bar">
+                <div id="live-meter-fill" class="meter-fill"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detalles Biológicos y Hábitat en Huánuco -->
+          <div class="bio-details">
+            <div class="bio-item">
+              <strong>Hábitat en Huánuco:</strong>
+              <p id="live-bio-habitat">Zonas de distribución: Bosque de Protección de Carpish, Parque Nacional Tingo María y cuenca del río Huallaga.</p>
+            </div>
+            <div class="bio-item">
+              <strong>Amenazas Principales:</strong>
+              <p id="live-bio-threats">Pérdida de hábitat por deforestación y cacería indiscriminada.</p>
+            </div>
+          </div>
+
+          <!-- Notificación de Persistencia en MongoDB Atlas -->
+          <div id="live-db-toast" class="db-log-toast" style="display: none;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <div>
+              <div>Registro guardado en MongoDB Atlas</div>
+              <small id="live-db-record-id" style="font-weight: 400; opacity: 0.9;">Colección: detecciones_tiempo_real</small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================================
+         PESTAÑA 2: SUBIR FOTOS (ARCHIVOS)
+         ======================================================== -->
+    <div id="tab-upload" class="tab-pane">
+      <div class="recognition-grid">
+        
+        <!-- Dropzone de Carga de Imágenes -->
+        <div class="card-viewer">
+          <div class="card-header-clean">
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green-600)" stroke-width="2"><path d="M4 16l4.586-4.586a2 2 0 0 1 2.828 0L16 16m-2-2l1.586-1.586a2 2 0 0 1 2.828 0L20 14m-6-6h.01M6 20h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"/></svg>
+              Carga y Reconocimiento de Fotografías
+            </h3>
+          </div>
+
+          <!-- Dropzone -->
+          <div id="dropzone" class="dropzone-container">
+            <input type="file" id="file-input" accept="image/*" style="display: none;">
+            <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <h4 class="dropzone-title">Arrastra y suelta tu foto aquí</h4>
+            <p class="dropzone-subtitle">Soporta formatos JPG, PNG y WEBP de alta resolución</p>
+            <button id="btn-select-file" type="button" class="btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Seleccionar Foto de tu Laptop
+            </button>
+          </div>
+
+          <!-- Visor de Imagen con Cajas Bounding Box -->
+          <div id="preview-stage" class="preview-stage">
+            <img id="preview-img" alt="Foto analizada">
+            <canvas id="preview-canvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Tarjeta de Resultados de la Foto -->
+        <div id="upload-results-panel" class="card-results" style="display: none;">
+          <div class="card-header-clean">
+            <h3>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green-600)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Resultado del Análisis
+            </h3>
+            <span id="upload-badge-status" class="conservation-badge badge-none">Identificado</span>
+          </div>
+
+          <div class="detection-status-banner detected">
+            <h4 id="upload-species-title" class="detection-title-species">Especie</h4>
+            <div id="upload-scientific-title" class="scientific-name">Nombre científico</div>
+
+            <div class="meter-wrapper">
+              <div class="meter-header">
+                <span>Nivel de Confianza:</span>
+                <span id="upload-meter-val">0%</span>
+              </div>
+              <div class="meter-bar">
+                <div id="upload-meter-fill" class="meter-fill"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bio-details">
+            <div class="bio-item">
+              <strong>Hábitat en Huánuco:</strong>
+              <p id="upload-bio-habitat">-</p>
+            </div>
+            <div class="bio-item">
+              <strong>Amenazas en la Región:</strong>
+              <p id="upload-bio-threats">-</p>
+            </div>
+          </div>
+
+          <div id="upload-db-toast" class="db-log-toast" style="display: none;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <div>
+              <div>Resultado registrado en MongoDB Atlas</div>
+              <small id="upload-db-record-id" style="font-weight: 400; opacity: 0.9;">Colección: detecciones_tiempo_real</small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================================
+         PESTAÑA 3: CATÁLOGO DE LAS 3 AVES DE HUÁNUCO
+         ======================================================== -->
+    <div id="tab-catalog" class="tab-pane">
+      <div class="catalog-grid">
+
+        <!-- 1. Trompetero -->
+        <article class="bird-card">
+          <div class="bird-card-media">
+            <img src="/static/img/trompetero.svg" alt="Trompetero de Huánuco">
+          </div>
+          <div class="bird-card-body">
+            <div class="bird-card-header">
+              <div>
+                <h4 class="bird-card-title">Trompetero</h4>
+                <div class="bird-card-scientific">Psophia leucoptera / crepitans</div>
+              </div>
+              <span class="conservation-badge badge-vu">VU · Vulnerable</span>
+            </div>
+            <p class="bird-card-desc">
+              Ave gregaria y terrestre con joroba característica. Habita los bosques húmedos primarios de la cuenca del Huallaga y Tingo María. Su plumaje negro luce reflejos morados tornasol y un llamativo dorso grisáceo o blanco. Emite cantos graves y resonantes.
+            </p>
+            <div class="bird-card-footer">
+              <strong>Distribución:</strong> Parque Nacional Tingo María, Puerto Inca y bosques aluviales del río Huallaga.
+            </div>
+          </div>
+        </article>
+
+        <!-- 2. Matorralero Tricolor -->
+        <article class="bird-card">
+          <div class="bird-card-media">
+            <img src="/static/img/matorralero.svg" alt="Matorralero Tricolor de Carpish">
+          </div>
+          <div class="bird-card-body">
+            <div class="bird-card-header">
+              <div>
+                <h4 class="bird-card-title">Matorralero Tricolor</h4>
+                <div class="bird-card-scientific">Atlapetes tricolor</div>
+              </div>
+              <span class="conservation-badge badge-en">EN · En Peligro</span>
+            </div>
+            <p class="bird-card-desc">
+              Especie emblemática y vulnerable de los bosques de neblina montanos de Carpish. Destaca por su corona y nuca ocre dorado, antifaz negro azabache, garganta y vientre amarillo encendido, en contraste con su dorso verde oliva oscuro.
+            </p>
+            <div class="bird-card-footer">
+              <strong>Distribución:</strong> Bosque de Protección de Carpish, Panao y cordillera central de Huánuco (1,800 - 3,200 m s.n.m.).
+            </div>
+          </div>
+        </article>
+
+        <!-- 3. Paujil -->
+        <article class="bird-card">
+          <div class="bird-card-media">
+            <img src="/static/img/paujil.svg" alt="Paujil del Huallaga">
+          </div>
+          <div class="bird-card-body">
+            <div class="bird-card-header">
+              <div>
+                <h4 class="bird-card-title">Paujil del Huallaga</h4>
+                <div class="bird-card-scientific">Crax globulosa / Mitu tuberosa</div>
+              </div>
+              <span class="conservation-badge badge-cr">CR · Peligro Crítico</span>
+            </div>
+            <p class="bird-card-desc">
+              Gran ave crácida de porte majestuoso y crestas rizadas en la cabeza. Posee plumaje negro carbón brillante y una protuberancia carnosa escarlata en la base del pico. Gravemente amenazado por la cacería de subsistencia y tala de árboles frutales.
+            </p>
+            <div class="bird-card-footer">
+              <strong>Distribución:</strong> Terrazas fluviales del Huallaga, cuenca del Pachitea y selva baja de Huánuco.
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- ========================================================
+         PESTAÑA 4: HISTORIAL MONGODB ATLAS
+         ======================================================== -->
+    <div id="tab-history" class="tab-pane">
+      <div class="table-card">
+        <div class="card-header-clean">
+          <div>
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green-600)" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+              Registro Histórico en MongoDB Atlas
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--slate-600); margin-top: 0.2rem;">
+              Base de datos: <code style="color: var(--green-800); font-weight: 700;">aves_huanuco_db</code> · Colección: <code style="color: var(--green-800); font-weight: 700;">detecciones_tiempo_real</code>
+            </p>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem;">
+            <button id="btn-refresh-history" class="btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+              Refrescar
+            </button>
+            <button id="btn-export-history" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Exportar JSON
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Especie Detectada</th>
+                <th>Origen</th>
+                <th>Confianza YOLO</th>
+                <th>Región</th>
+                <th>Fecha y Hora (UTC)</th>
+                <th>ID Registro</th>
+              </tr>
+            </thead>
+            <tbody id="history-table-body">
+              <!-- Se puebla dinámicamente con JavaScript -->
+            </tbody>
+          </table>
+
+          <div id="history-empty-notice" style="display: none; padding: 2.5rem; text-align: center; color: var(--slate-500);">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 0.75rem; opacity: 0.5;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <p>Aún no hay detecciones registradas. Enciende la cámara o sube una foto para comenzar a poblar MongoDB Atlas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Pie de Página -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem;">
+          <img src="/static/img/brand_logo.svg" alt="InnoBest Logo" style="width: 28px; height: 28px; border-radius: 6px;">
+          <h4 style="font-size: 1.1rem; font-weight: 700;">InnoBest · Aves de Huánuco</h4>
+        </div>
+        <p class="footer-desc">
+          Tecnología orientada a la conservación de la fauna silvestre en el departamento de Huánuco, Perú. Integración con visión artificial YOLO y almacenamiento en tiempo real en la nube con MongoDB Atlas.
+        </p>
+      </div>
+      <div class="footer-copy">
+        Desarrollado para el Monitoreo Ecológico de Huánuco · 2026
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts de la Aplicación -->
+  <script src="/static/js/app.js"></script>
+  <script src="/static/js/camera.js"></script>
+  <script src="/static/js/upload.js"></script>
+
+</body>
+</html>

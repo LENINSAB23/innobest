@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Círculo de fondo con degradado verde selva -->
+  <defs>
+    <linearGradient id="forestGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="50%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#a7f3d0" />
+    </linearGradient>
+    <linearGradient id="beakGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+  </defs>
+
+  <!-- Escudo orgánico -->
+  <rect x="5" y="5" width="90" height="90" rx="24" fill="url(#forestGrad)" />
+
+  <!-- Silueta estilizada de hoja tropical de fondo -->
+  <path d="M 50 15 C 75 25, 85 55, 65 75 C 55 85, 35 85, 25 70 C 15 50, 30 20, 50 15 Z" fill="url(#leafGrad)" opacity="0.35" />
+
+  <!-- Silueta estilizada de pájaro en vuelo / pico -->
+  <!-- Cuerpo del ave -->
+  <path d="M 32 68 C 30 52, 42 38, 55 35 C 68 32, 75 42, 68 55 C 62 67, 45 74, 32 68 Z" fill="#ffffff" />
+  
+  <!-- Cabeza y cresta elegante (estilo Paujil / Ave Huánuco) -->
+  <circle cx="62" cy="38" r="9" fill="#ffffff" />
+  <!-- Cresta de plumas -->
+  <path d="M 64 29 C 68 24, 75 23, 76 27 C 77 31, 71 33, 67 32 Z" fill="#34d399" />
+  <path d="M 60 27 C 63 21, 69 20, 71 24 C 72 27, 66 30, 62 30 Z" fill="#10b981" />
+  
+  <!-- Ojo -->
+  <circle cx="64" cy="36" r="2.2" fill="#064e3b" />
+  
+  <!-- Pico curvo estilizado -->
+  <path d="M 69 37 L 85 41 C 80 47, 72 47, 69 43 Z" fill="url(#beakGrad)" />
+
+  <!-- Ala con forma de hoja de selva -->
+  <path d="M 35 60 C 42 45, 58 45, 50 63 C 44 72, 36 68, 35 60 Z" fill="#047857" opacity="0.85" />
+  <path d="M 38 60 C 44 48, 54 48, 48 62" stroke="#34d399" stroke-width="1.5" stroke-linecap="round" fill="none" />
+
+  <!-- Hoja de laurel botánica de soporte -->
+  <path d="M 22 74 C 28 62, 42 66, 44 76 C 36 82, 24 82, 22 74 Z" fill="#a7f3d0" />
+</svg>

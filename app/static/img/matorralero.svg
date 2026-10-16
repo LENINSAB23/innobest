@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <defs>
+    <linearGradient id="bgMatorral" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </linearGradient>
+    <linearGradient id="yellowGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="100%" stop-color="#eab308"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" rx="20" fill="url(#bgMatorral)"/>
+  
+  <!-- Vegetación de bosque de neblina de Carpish -->
+  <path d="M 0 300 C 80 220, 160 250, 240 300 Z" fill="#15803d" opacity="0.3"/>
+  <!-- Rama sobre la que se posa el matorralero -->
+  <path d="M 60 215 C 150 200, 260 220, 360 195" stroke="#78350f" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- Cola larga de matorralero -->
+  <path d="M 120 185 L 60 220 L 70 230 L 135 195 Z" fill="#1e293b"/>
+
+  <!-- Dorso y alas oliva oscuro -->
+  <ellipse cx="180" cy="160" rx="55" ry="38" fill="#365314"/>
+  <!-- Ala con detalle plumas -->
+  <path d="M 140 155 C 160 145, 195 155, 185 185 C 160 190, 140 180, 140 155 Z" fill="#1e293b"/>
+
+  <!-- Vientre y pecho AMARILLO INTENSO característico -->
+  <path d="M 175 165 C 190 195, 230 190, 235 155 C 215 150, 185 155, 175 165 Z" fill="url(#yellowGrad)"/>
+
+  <!-- Garganta y barbilla amarilla -->
+  <path d="M 225 140 C 240 145, 245 135, 230 128 Z" fill="#fde047"/>
+
+  <!-- Cabeza con MÁSCARA NEGRA PROFUNDA -->
+  <circle cx="230" cy="125" r="24" fill="#0f172a"/>
+
+  <!-- CORONA Y NUCA DORADA / OCRE (tricolor) -->
+  <path d="M 215 105 C 230 98, 250 102, 248 116 C 235 112, 220 115, 215 105 Z" fill="#f59e0b"/>
+
+  <!-- Ojo y pico cónico de granívoro/frugívoro -->
+  <circle cx="238" cy="122" r="3" fill="#f8fafc"/>
+  <circle cx="239" cy="122" r="1.6" fill="#020617"/>
+  <!-- Pico gris oscuro -->
+  <path d="M 252 122 L 272 126 L 252 133 Z" fill="#334155"/>
+
+  <!-- Patas agarradas a la rama -->
+  <line x1="170" y1="190" x2="168" y2="208" stroke="#475569" stroke-width="3"/>
+  <line x1="190" y1="188" x2="188" y2="206" stroke="#475569" stroke-width="3"/>
+
+  <!-- Etiqueta UICN -->
+  <rect x="250" y="24" width="126" height="30" rx="8" fill="#dc2626" opacity="0.9"/>
+  <text x="313" y="44" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">EN PELIGRO (EN)</text>
+</svg>
