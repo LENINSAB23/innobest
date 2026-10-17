@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <defs>
+    <linearGradient id="bgRocas" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e1b4b" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="orangeScarlet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffedd5"/>
+      <stop offset="25%" stop-color="#fb923c"/>
+      <stop offset="70%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#c2410c"/>
+    </linearGradient>
+    <linearGradient id="wingGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#090d16"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" rx="20" fill="url(#bgRocas)"/>
+  
+  <!-- Fondo de roca húmeda de bosque nuboso (Tingo María / Cueva de las Pavas) -->
+  <path d="M 0 300 L 120 180 L 180 230 L 260 170 L 400 300 Z" fill="#1e293b" opacity="0.4"/>
+  <!-- Saliente rocoso / Farallón donde habita el Tunqui -->
+  <path d="M 40 235 C 140 220, 240 235, 360 215" stroke="#475569" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Cola negra azabache -->
+  <path d="M 120 200 L 65 245 L 80 255 L 140 215 Z" fill="#020617"/>
+
+  <!-- Manto y alas negras con plumas grises características -->
+  <ellipse cx="180" cy="180" rx="55" ry="38" fill="url(#wingGrad)"/>
+  <path d="M 145 175 C 165 160, 200 170, 190 200 C 165 205, 145 195, 145 175 Z" fill="#475569"/>
+
+  <!-- Pecho y cuerpo NARANJA ESCARLATA BRILLANTE -->
+  <ellipse cx="215" cy="165" rx="46" ry="40" fill="url(#orangeScarlet)"/>
+  <path d="M 195 140 C 235 130, 255 175, 230 205 C 195 210, 185 165, 195 140 Z" fill="url(#orangeScarlet)"/>
+
+  <!-- Cabeza escarlata -->
+  <circle cx="245" cy="125" r="26" fill="url(#orangeScarlet)"/>
+
+  <!-- CRESTA EN DISCO / ABANICO CARACTERÍSTICA DEL GALLITO DE LAS ROCAS -->
+  <path d="M 230 135 C 220 90, 260 70, 280 100 C 290 115, 275 135, 260 138 Z" fill="url(#orangeScarlet)"/>
+  <path d="M 235 130 C 228 95, 260 80, 275 105 C 282 118, 270 132, 255 135 Z" fill="#fdba74" opacity="0.75"/>
+
+  <!-- Pico parcialmente cubierto por la cresta plumosa -->
+  <path d="M 268 128 L 285 132 L 268 138 Z" fill="#fef08a"/>
+
+  <!-- Ojo penetrante del Tunqui macho -->
+  <circle cx="250" cy="118" r="4.5" fill="#fef08a"/>
+  <circle cx="250.5" cy="118" r="2.5" fill="#090d16"/>
+  <circle cx="251.5" cy="117" r="0.8" fill="#ffffff"/>
+
+  <!-- Patas posadas firmes en el peñasco -->
+  <path d="M 195 200 L 190 228 M 190 228 L 178 232 M 190 228 L 195 233" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 215 200 L 210 226 M 210 226 L 200 230 M 210 226 L 216 231" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+</svg>

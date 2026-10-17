@@ -161,9 +161,10 @@ class MongoDBManager:
         stats = {
             "total_detections": 0,
             "species_counts": {
-                "trompetero": 0,
+                "gallito_de_las_rocas": 0,
                 "matorralero_tricolor": 0,
                 "paujil": 0,
+                "trompetero": 0,
                 "otro": 0
             },
             "connected_to_atlas": self.is_connected,

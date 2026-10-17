@@ -5,19 +5,19 @@ y características morfológicas clave para validación y enriquecimiento de pre
 """
 
 BIRDS_CATALOG = {
-    "trompetero": {
-        "id": "trompetero",
-        "common_name": "Trompetero del Huallaga",
-        "scientific_name": "Psophia leucoptera / Psophia crepitans",
-        "family": "Psophiidae",
-        "conservation_status": "Vulnerable / En Riesgo Regional",
+    "gallito de las rocas": {
+        "id": "gallito_de_las_rocas",
+        "common_name": "Gallito de las Rocas (Tunqui)",
+        "scientific_name": "Rupicola peruvianus",
+        "family": "Cotingidae",
+        "conservation_status": "Ave Nacional del Perú / En Monitoreo Regional",
         "status_code": "VU",
-        "status_color": "#d97706",  # Ámbar
-        "huanuco_habitat": "Bosques húmedos tropicales de la cuenca del Huallaga, Parque Nacional Tingo María y bosques de Puerto Inca.",
-        "diet": "Frutos caídos, semillas, artrópodos y pequeños invertebrados del sotobosque.",
-        "description": "Ave gregaria y terrestre de unos 45-52 cm de longitud con joroba pronunciada. Plumaje denso de color negro brillante con reflejos morados en el pecho y una capa grisácea o blanca en la espalda y alas. Emiten vocalizaciones profundas y resonantes similares a un tambor o trompeta.",
-        "threats": "Cacería intensiva para consumo humano debido a su mansedumbre y desplazamiento en bandadas por el suelo, sumado a la pérdida de bosques primarios.",
-        "keywords": ["trompetero", "psophia", "trumpeter", "trompetero aliblanco"]
+        "status_color": "#ea580c",  # Naranja escarlata
+        "huanuco_habitat": "Bosques nublados y quebradas rocosas del Parque Nacional Tingo María, Cueva de las Pavas, Carpish y valles de Huánuco (500 a 2,400 m s.n.m.).",
+        "diet": "Frutos silvestres del estrato medio, bayas de laurisilva e insectos grandes.",
+        "description": "Ave nacional del Perú (32 cm). El macho luce un plumaje anaranjado escarlata sumamente intenso y llamativo, alas y cola negras, y una prominente cresta en forma de disco sobre el pico. Famosos por sus leks o danzas de cortejo comunitario en los farallones rocosos.",
+        "threats": "Deforestación por expansión agrícola y tala, pérdida de sitios de nidificación en cañones y tráfico ilegal de especies silvestres.",
+        "keywords": ["gallito de las rocas", "gallito_de_las_rocas", "gallito", "rupicola", "rupicola peruvianus", "tunqui", "cock of the rock", "rocas", "trompetero"]
     },
     "matorralero tricolor": {
         "id": "matorralero_tricolor",

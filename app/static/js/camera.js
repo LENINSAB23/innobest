@@ -223,6 +223,9 @@ class CameraController {
       } else if (nameLower.includes("matorralero") || nameLower.includes("matorrelero")) {
         color = "#eab308"; // Amarillo vivo
         textColor = "#000000";
+      } else if (nameLower.includes("gallito") || nameLower.includes("rocas") || nameLower.includes("tunqui")) {
+        color = "#ea580c"; // Naranja escarlata (Gallito de las Rocas)
+        textColor = "#ffffff";
       } else if (nameLower.includes("trompetero")) {
         color = "#0284c7"; // Azul cielo / cian
         textColor = "#ffffff";

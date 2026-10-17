@@ -6,7 +6,7 @@ Coloca aquí el archivo con los pesos del modelo entrenado de YOLO:
 - **Ubicación exacta**: `app/models/best.pt`
 
 ### 3 Aves reconocidas:
-1. **Trompetero** (*Psophia leucoptera / Psophia crepitans*)
+1. **Gallito de las Rocas (Tunqui)** (*Rupicola peruvianus*)
 2. **Matorralero Tricolor** (*Atlapetes tricolor*)
 3. **Paujil** (*Crax globulosa / Mitu tuberosa*)
 
